@@ -4,7 +4,7 @@
 function Room(canvas){
 
 	//The speed at which the elements in the room move
-	var roomSpeed = 3;
+	var roomSpeed = -30;
 	
 	//Where x distance the room has travelled
 	var roomDistance = context.canvas.width;
@@ -23,13 +23,19 @@ function Room(canvas){
 		//Make the logic for the room work
 		tick : function(){
 		
+			console.log(lines.length);
+		
 			//Add the rooms speed to the roomDistance
 			roomDistance += roomSpeed;
 		
 			//todo, make all the elements of the room move roomSpeed units
-			for(var i = 0; i < lines.length; i++){
-				lines[i].tick();
-			}
+			lines.forEach(function(line){ 
+				//Tick the line
+				line.tick();
+			
+				//Add our room speed to the line
+				line.moveLine(roomSpeed);
+			});
 
 			//While we don't have lines to cover the whole room
 			while(lineDistance < roomDistance){
@@ -49,8 +55,11 @@ function Room(canvas){
 			}
 
 
-			//Draw the room elements
+			//Draw the room
 			this.draw();
+			
+			//Draw the lines
+			lines.forEach(function(line){ line.draw(); });
 
 		},
 		

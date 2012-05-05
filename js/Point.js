@@ -31,6 +31,13 @@ function Point(x, y){
 			
 		},
 		
+		//Get the distance between two points
+		distance : function(point){
+
+			return Math.ceil(sqrt(this.minus(point) + this.minus(point)));
+		
+		},
+		
 		//Override toString to be more descriptive
 		toString : function(){
 			return this.getX() + ', ' + this.getY();
