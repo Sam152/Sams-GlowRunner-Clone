@@ -3,24 +3,38 @@
  */
 function GlowRunner(){
 	
-	//Some application constants
-	var canvas = document.getElementById('glow-runner');
+	//Our global canvas variables
+	canvas = document.getElementById('glow-runner');
+	context = canvas.getContext("2d");
+	
+	//Our application variables
 	var framerate = 30;
+	var room = new Room();
 
-	var room = new Room(canvas);
-
+	//Create a variable which will become this
 	var _this;
+	
+	//Set the width and height of our game
+	context.canvas.width  = 800;
+	context.canvas.height = 400;
 	
 	return {
 
 		//Run the core code of the game
 		tick : function(){
+
+			//Refresh the canvas
+			context.clearRect(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			);
 			
-			//Make the room work			
+			//Make the room work
 			room.tick();
 		
 		},
-
 		//Handle tick and framerate
 		start : function(game){
 			
@@ -50,6 +64,5 @@ function GlowRunner(){
 
 //Start the game when the window loads
 window.onload = function(){
-
 	(new GlowRunner()).start();
 }

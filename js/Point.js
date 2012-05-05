@@ -5,6 +5,7 @@ function Point(x, y){
 
 	return {
 		getX : function(){
+			
 			return x;
 		},
 		getY : function(){
