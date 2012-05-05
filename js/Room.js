@@ -14,7 +14,15 @@ function Room(canvas){
 		
 		//Make the logic for the room work
 		tick : function(){
-			
+
+			//Draw the room elements
+			this.draw();
+
+		},
+		
+		//Draw the elements of the room
+		draw : function(){
+
 			//Render the background
 			this.background();
 

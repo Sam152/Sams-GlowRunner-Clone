@@ -4,8 +4,9 @@
 function GlowRunner(){
 	
 	//Our global canvas variables
-	canvas = document.getElementById('glow-runner');
-	context = canvas.getContext("2d");
+	canvas = 	document.getElementById('glow-runner');
+	context = 	canvas.getContext("2d");
+	ticks = 	0;
 	
 	//Our application variables
 	var framerate = 30;
@@ -33,6 +34,9 @@ function GlowRunner(){
 			
 			//Make the room work
 			room.tick();
+		
+			//Keep our global tick count rockin' 
+			ticks++;
 		
 		},
 		//Handle tick and framerate
