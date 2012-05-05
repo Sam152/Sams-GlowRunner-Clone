@@ -4,7 +4,7 @@
 function Line(){
 
 	//The y position of the line
-	var yPosition = 100;
+	var yPosition = 300;
 	
 	//The width of the line
 	var lineWidth = 200;
@@ -33,7 +33,7 @@ function Line(){
 		
 		//Get the length of the line
 		getLength : function(){
-			return 100;
+			return lineWidth;
 		},
 		
 		//Move the line based on an xOffset
@@ -62,8 +62,12 @@ function Line(){
 		
 		//Draw the line
 		draw : function(){
+		
+			//Start drawing a path
+			context.beginPath();
+
 			//Set the color of the line
-			context.strokeStyle = "#f00";
+			context.strokeStyle = "rgba(225,0,0,0.9)";
 			
 			//Draw a line between the two points
 			context.moveTo(position[0].getX(),position[0].getY());

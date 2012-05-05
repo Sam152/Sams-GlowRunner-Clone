@@ -4,7 +4,7 @@
 function Room(canvas){
 
 	//The speed at which the elements in the room move
-	var roomSpeed = -30;
+	var roomSpeed = -3;
 	
 	//Where x distance the room has travelled
 	var roomDistance = context.canvas.width;
@@ -23,8 +23,6 @@ function Room(canvas){
 		//Make the logic for the room work
 		tick : function(){
 		
-			console.log(lines.length);
-		
 			//Add the rooms speed to the roomDistance
 			roomDistance += roomSpeed;
 		
@@ -36,9 +34,12 @@ function Room(canvas){
 				//Add our room speed to the line
 				line.moveLine(roomSpeed);
 			});
+			
+			console.log(lines.length);
+
 
 			//While we don't have lines to cover the whole room
-			while(lineDistance < roomDistance){
+			if(-lineDistance > roomDistance){
 				
 				//Create a new line on the end of the array
 				var newLineKey = lines.length;
@@ -47,11 +48,10 @@ function Room(canvas){
 				lines[newLineKey] = new Line(lineDistance, lastLineY);				
 
 				//Add the lines length to the line distance
-				lineDistance += lines[newLineKey].getLength();			
+				lineDistance += lines[newLineKey].getLength() + 10;			
 			
 				//Store the y position of the line
 				lastLineY += lines[newLineKey].getY();
-
 			}
 
 
@@ -78,7 +78,12 @@ function Room(canvas){
 			context.fillStyle = "#000";
 			
 			//Fill the background with that solid color
-			context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+			context.fillRect(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			);
 		}
 	};
 

@@ -24,13 +24,8 @@ function GlowRunner(){
 		//Run the core code of the game
 		tick : function(){
 
-			//Refresh the canvas
-			context.clearRect(
-				0,
-				0,
-				context.canvas.width,
-				context.canvas.height
-			);
+			//Clear the game room
+			this.clear();
 			
 			//Make the room work
 			room.tick();
@@ -61,6 +56,19 @@ function GlowRunner(){
 				: framerate - frameTime;
 							
 			setTimeout(_this.start, nextTimeout);		
+		},
+		
+		//Clear the canvas context for later user
+		clear : function(){
+
+			//Refresh the canvas
+			context.clearRect(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			);
+
 		}
 	};
 }
