@@ -3,14 +3,18 @@
  */
 function Room(canvas){
 
-	//The speed at which the elements in the room move
-	var roomSpeed = -7;
-	
-	//Where x distance the room has travelled
-	var roomDistance = context.canvas.width;
+	/*
+	 * Mess with these for gameplay mechanics
+	 */
 
-	//The x distance the lines cover
-	var lineDistance = -context.canvas.width;
+	//The speed at which the room moves
+	var roomSpeed = -7;
+
+	//The upper limit of how far away platforms are from eachother
+	var platformFrequencyVarianceUpper = 200;
+	
+	//The lower limit of how far away platforms are from eachother
+	var platformFrequencyVarianceLower = -100;
 	
 	//Create an array of line colors
 	var lineColors = [
@@ -19,19 +23,27 @@ function Room(canvas){
 		'#00f',
 		'#ff0'
 	];
+
+
+	/*
+	 * Dont mess with these
+	 */
+	
+	//Where x distance the room has travelled
+	var roomDistance = context.canvas.width;
+
+	//The x distance the lines cover
+	var lineDistance = -context.canvas.width;
 	
 	//The initial seed for the line Y setting
-	var lastLineY = 300;
-	
-	//The variance of the platform distance from eachother
-	var platformFrequencyVariance = 100;
+	var lastLineY = 300;	
 	
 	//The lines drawn on the room
 	var lines = [];
-	
+
 	//Create an initial line for us to run on
 	lines[0] = new Line(false, false, lineColors);
-	
+
 	//Create our runner to run on our lines
 	var runner = new Runner(lineColors);
 
@@ -78,9 +90,9 @@ function Room(canvas){
 					
 					//Keep track of the amount of space lines have covered
 					lines[newLineKey].getLength() 
-					
+
 					//Add a variance for overlapping and spreading apart platform
-					+ rand(-platformFrequencyVariance, 2 * platformFrequencyVariance);			
+					+ rand(platformFrequencyVarianceLower, platformFrequencyVarianceUpper);			
 
 				//Store the y position of the line
 				lastLineY = lines[newLineKey].getY();

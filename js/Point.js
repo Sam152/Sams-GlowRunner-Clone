@@ -13,7 +13,17 @@ function Point(x, y){
 		//Get the Y value of a point
 		getY : function(){
 			return y;
-		}, 
+		},
+		
+		//Set the X value
+		setX : function(inX){
+			x = inX; 
+		},
+		
+		//Set the Y value
+		setY : function(inY){
+			y = inY;
+		},
 		
 		//Minus a point to this point 
 		minus : function(point){

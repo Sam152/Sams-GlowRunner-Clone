@@ -3,55 +3,153 @@
  */
 function Runner(lineColors){
 
+	/*
+	 * Mess with these for gameplay mechanics
+	 */
+
+	//The strength of gravity
+	var gravity = 1;
+	
+	//The upward velocity to add when jumping
+	var jumpVelocity = -5;
+	
+	//The handtime of a jump in milliseconds
+	var jumpHangtime = 4000;
+
+	//The maximum velocity we can fall at	
+	var terminalVelocity = 15;
+	
+
+	/*
+	 * Don't mess with these.
+	 */
+	
+	//The active line that our runner was last standing on
+	var activeLine;
+
+	//The color of our runner man
+	var color = lineColors[0];
+	
+	//A flag for if the user is holding down space
+	var spaceDown = false;
+	
+	//A flag for if our runner is jumping
+	var jumping = false;
+	
+	//Is this the first tick since the spacebar was pushed
+	var movingUpward = false;
+	
+	//The time in which the hangtime of a jump ends
+	var hangtimeEnd;
+
 	//The current position of our runner
 	var position = new Point(100, 100);
 
 	//Get the dimensions of our runner, store in a Point just because
 	var dimensions = new Point(45, 45);
 	
-	//The possible states we can be in
-	var states = {
-		RUNNING : 0,
-		JUMPING : 1
-	};
-	
-	//Set the intial state
-	var state = states.RUNNING;
-
-	//The color of our runner man
-	var color = lineColors[0];
-
-	//The strength of gravity
-	var gravity = 1;
-	
 	//The velocity of our runner
 	var velocity = 0;
-	
-	//The maximum value velocity can reach
-	var terminalVelocity = 3;
+		
+	//Construct our runner
+	(function(){
 
-	//Set the maximum jump height of our runner
-	var jumpHeight = 20;
+		//When someone presses a key	
+		window.addEventListener(
+			'keydown',
+			function(e){
+		
+				//Get they key binding that maps to a color
+				var keyColorBinding = e.keyCode - 37;
+				
+				//If it exists in our array
+				if(typeof lineColors[keyColorBinding] !== 'undefined'){
+					//Set our color to the key that was pressed
+					color = lineColors[keyColorBinding];
+				}
+				
+				//If we push space
+				if(e.keyCode == 32){
+
+					//Set our flag to say we are holding space
+					spaceDown = true;	
+				}
+			}
+		);
+
+		//When someone releases a key
+		window.addEventListener(
+			'keyup',
+			function(e){
+				//If we release space
+				if(e.keyCode == 32){
+					spaceDown = false;	
+				}	
+			}
+		);
+
+	})();
 
 	return {
 		
 		tick : function(lines){
-	
-			var standingOnALine = this.isStandingOnLine(lines);
-	
 
-			if(standingOnALine){
+			//Find out if we are standing on a line or not	
+			var standingOnALine = this.isStandingOnLine(lines);
+
+			//If the user is trying to jump or moving upward	
+			if(spaceDown && (standingOnALine || movingUpward)){
 				
-				velocity = 0;	
+				//This is the first tick of a jump
+				if(standingOnALine){
+
+					//Set our flag to be moving upward
+					movingUpward = true;
+				
+					//Set our initial velocity to be moving up
+					velocity = jumpVelocity;
+					
+					//Set our jump to end when the time hits this point
+					hangtimeEnd = (new Date()).getTime() + jumpHangtime;
+				}					
+
+				if((new Date()).getTime() < hangtimeEnd){
+					velocity = jumpVelocity;
+				}else{
+					movingUpward = false;
+				}
+
 			
 			}else{
+				movingUpward = false;
+			}
 			
-				//Always add gravity to our velocity
-				velocity += gravity;
 			
-				//Add our velocity to our runner
-				position.add(new Point(0, velocity));
-
+			//Always add gravity to our velocity
+			velocity += gravity;
+				
+			//Make sure we don't piss off Newton
+			if(velocity > terminalVelocity)
+				velocity = terminalVelocity;
+			
+			//Add our velocity to our runner
+			position.add(new Point(0, velocity));			
+			
+			if(standingOnALine && !movingUpward){
+			
+					console.log(ticks + ' standing');
+				
+					//Stop our man from falling
+					velocity = 0;
+				
+					//Make our runner hug the line instead of stopping just above it
+					position.setY(
+						//Get the position of our last active line
+						activeLine.getPosition()[0].getY()
+					
+						//Minus our runners height
+						- dimensions.getY()
+					);
 			}
 		
 		},
@@ -69,7 +167,7 @@ function Runner(lineColors){
 			var yHitAreaBottom = yHitAreaTop + terminalVelocity;
 	
 			//Loop through each line to see if we are standing on it
-			lines.forEach(function(line, index){
+			lines.some(function(line, index){
 				
 				//Get the position of our line
 				var linePosition = line.getPosition();
@@ -98,6 +196,13 @@ function Runner(lineColors){
 				){
 					//Make sure the rest of our scripts know we are standing on a line
 					standingOnALine = true;
+					
+					//Set the active line so we can use it later
+					activeLine = line;
+					
+					//Halt execution of `some` by returning true
+					return true;
+					
 				}
 			});
 
@@ -108,8 +213,10 @@ function Runner(lineColors){
 		//Draw our runner man
 		draw : function(){
 
+			//Set the color of our dude
 			context.fillStyle = color;
-			
+
+			//A placeholder rect for now
 			context.fillRect(
 				position.getX(),
 				position.getY(),
