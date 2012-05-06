@@ -1,32 +1,45 @@
 /*
- * A simple object to manage playing sounds.
+ * A simple object to manage playing sounds.s
+ *
+ * @todo, rewrite so it's usable.
  */
-function SoundManager(soundPath, soundFormat, initialVolume){
+function SoundManager(soundPath, initialVolume){
+
+	var sounds = {
+		background : {
+			loop : true,
+			file : 'backgroundmusic.mp3',
+			volume : initialVolume
+		},
+		start : {
+			loop : true,
+			file : 'start.mp3',
+			volume : initialVolume
+		}
+	};
 
 	return {
-		play : function(soundName, inVolume, complete){
 
-			//The volume this sound will be played at
-			var volumeLevel;
+		play : function(soundName, callback){
 
-			//Use the function parameter by default
-			if(typeof inVolume !== "undefined"){
-				volumeLevel = inVolume;
-			}else{
-				//Fall back to our objects default
-				volumeLevel = initialVolume;
-			}
+			//If the sound doesn't exist return
+			if(typeof sounds[soundName] == 'undefined')
+				return;
+				
+			//If the audioElement doesn't exist
+			if(typeof sounds[soundName].audioElement == 'undefined')
+				//Create it and attach it to the audio object
+				sounds[soundName].audioElement = 
+					new Audio(soundPath + '/' + sounds[soundName].file);			
 
-			//Create an audio tag with the path to our file
-			var audioElement = new Audio(soundPath + '/' + soundName + '.' + soundFormat);	
-
-			//Set the volume
-			audioElement.volume = parseFloat(volumeLevel / 100);
-
-			//When the audio has loaded
+			//Define a variable to access the audio element
+			var audioElement = sounds[soundName].audioElement;
+			
+			//When the sound has loaded
 			audioElement.addEventListener(
 				'loadedmetadata',
 				function(){
+
 					//Play the sound
 					audioElement.play();
 				},
@@ -39,15 +52,43 @@ function SoundManager(soundPath, soundFormat, initialVolume){
 				function(){
 					
 					//If our callback is present
-					if(typeof complete == 'function'){
+					if(typeof callback == 'function'){
 						//Run our callback
-						complete();
+						callback();
 					}
+					
+					console.log('Playing');
+					//If we are looping
+					if(sounds[soundName].loop)
+						this.play(soundName);
+	
 				},
 				false
 			);
+		
+		},
 
+		//Stop a sound		
+		stop : function(soundName){
+			
+			//Stop the sound from playing
+			sounds[soundName].audioElement.stop();
+			
+			//Stop any looping
+			sounds[soundName].loop = false;
+
+		},
+		
+		//Set the looping status
+		setLoopStatus : function(sound, loopStatus){
+			
+			//Set the loop property on the given sound
+			sounds[soundName].loop = loopStatus;
+		
 		}
 	};
 
 }
+
+
+

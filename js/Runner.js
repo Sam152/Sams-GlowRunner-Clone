@@ -43,7 +43,7 @@ function Runner(lineColors){
 	var hangtimeEnd;
 
 	//The current position of our runner
-	var position = new Point(100, 100);
+	var position = new Point(100, 10);
 
 	//Get the dimensions of our runner, store in a Point just because
 	var dimensions = new Point(45, 45);

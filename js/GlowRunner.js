@@ -3,11 +3,11 @@
  */
 function GlowRunner(){
 	
-	//Our global canvas variables
+	//Our globally accessible variables
 	canvas = 	document.getElementById('glow-runner');
 	context = 	canvas.getContext("2d");
 	ticks = 	0;
-	sound = new SoundManager('assets/sounds', 'mp3', 100);
+	sound = 	new SoundManager('assets/sounds', 100);
 	
 	//Our application variables
 	var framerate = 30;
@@ -19,6 +19,14 @@ function GlowRunner(){
 	//Set the width and height of our game
 	context.canvas.width  = 800;
 	context.canvas.height = 400;
+	
+	//Perform setup tasks
+	(function(){
+	
+		//Start playing background music
+		sound.play('background');
+		
+	})();
 	
 	return {
 

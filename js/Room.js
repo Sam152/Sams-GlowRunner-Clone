@@ -29,27 +29,32 @@ function Room(canvas){
 	 * Dont mess with these
 	 */
 	
-	//Where x distance the room has travelled
-	var roomDistance = context.canvas.width;
+	var roomDistance, lineDistance, lastLineY, lines, runner, display;
+	
+	function construct(){
+		//Where x distance the room has travelled
+		roomDistance = context.canvas.width;
 
-	//The x distance the lines cover
-	var lineDistance = -context.canvas.width;
+		//The x distance the lines cover
+		lineDistance = -context.canvas.width;
 	
-	//The initial seed for the line Y setting
-	var lastLineY = 300;	
+		//The initial seed for the line Y setting
+		lastLineY = 300;	
 	
-	//The lines drawn on the room
-	var lines = [];
+		//The lines drawn on the room
+		lines = [];
 
-	//Create an initial line for us to run on
-	lines[0] = new Line(false, false, lineColors);
+		//Create an initial line for us to run on
+		lines[0] = new Line(false, false, lineColors);
 
-	//Create our runner to run on our lines
-	var runner = new Runner(lineColors);
+		//Create our runner to run on our lines
+		runner = new Runner(lineColors);
 	
-	//Get the display object we are using the render various elements
-	var display = new Display();
+		//Get the display object we are using the render various elements
+		display = new Display();
+	}
 	
+	construct();
 
 	return {
 		
@@ -108,7 +113,10 @@ function Room(canvas){
 			//Draw all the elements of our room 
 			display.draw(lines, runner);
 
-		}
+		},
+		
+		//Reset the state of the room
+		reset : construct
 	};
 
 }
