@@ -1,7 +1,7 @@
 /*
  * Create a line class that is to be rendered on the screen.
  */
-function Line(lineDistance, lastLineY){
+function Line(lineDistance, lastLineY, lineColors){
 
 	//The buffer of space to leave at the top of the canvas
 	var topBuffer = 150;
@@ -17,14 +17,6 @@ function Line(lineDistance, lastLineY){
 	
 	//The minimum line width
 	var minLineWidth  = 150;
-	
-	//Create an array of line colors
-	var lineColors = [
-		'#f00',
-		'#0f0',
-		'#00f',
-		'#ff0'	
-	];
 
 	//Variables for our contructor
 	var yPosition, lineWidth, position, lineColor;
@@ -32,35 +24,58 @@ function Line(lineDistance, lastLineY){
 
 	//Construct the line object
 	(function(){
-		//The y position of the line
-		yPosition = lastLineY + rand(-lineYVariance,lineYVariance);
 	
-		//Define the color of our line
-		lineColor = lineColors[rand(0,lineColors.length -1)];
+		//If this is the initial first line to be drawn
+		if(lineDistance === false && lastLineY === false){
+
+			//Set the initial position to be on screen
+			xPosition = 90;
+			
+			//Set the initial y position of the line
+			yPosition = 200;
+			
+			//Use the first color in our array
+			lineColor = lineColors[0];
+			
+			lineWidth = 600;
+			
+		}else{
 	
-		//Make sure the y position doesn't got off the bottom of the screen
-		if(yPosition > context.canvas.height - bottomBuffer)
-			//Reflect it's position back
-			yPosition -= 2 * Math.abs(yPosition - (context.canvas.height - bottomBuffer));
+			//The y position of the line
+			yPosition = lastLineY + rand(-lineYVariance,lineYVariance);
+	
+			//Define the color of our line
+			lineColor = lineColors[rand(0,lineColors.length -1)];
+	
+			//Make sure the y position doesn't got off the bottom of the screen
+			if(yPosition > context.canvas.height - bottomBuffer)
+				//Reflect it's position back
+				yPosition -= 2 * Math.abs(yPosition - (context.canvas.height - bottomBuffer));
 
-		//If the y position it higher than the buffer
-		if(yPosition < topBuffer)
-			yPosition += 2 * (topBuffer - yPosition);
+			//If the y position it higher than the buffer
+			if(yPosition < topBuffer)
+				yPosition += 2 * (topBuffer - yPosition);
 
-		//The width of a line
-		lineWidth = rand(0, lineWidthVariance) + minLineWidth;
+			//The width of a line
+			lineWidth = rand(0, lineWidthVariance) + minLineWidth;
+		
+			//Start off screen
+			xPosition = context.canvas.width;
+		
+		}
 
 		//Define a possition as an array of two points
 		position = [
 			new Point(
-				context.canvas.width,
+				xPosition,
 				yPosition
 			),
 			new Point(
-				context.canvas.width + lineWidth,
+				xPosition + lineWidth,
 				yPosition
 			)
 		];
+
 	})();
 
 
@@ -79,6 +94,16 @@ function Line(lineDistance, lastLineY){
 			
 			//It doesn't matter which point is accessed as they have the same Y
 			return position[0].getY();
+		},
+		
+		//Get the position of the line
+		getPosition : function(){
+			return position;
+		},
+		
+		//Get the color of the line
+		getColor : function(){
+			return lineColor;
 		},
 		
 		//Get the length of the line
@@ -124,6 +149,7 @@ function Line(lineDistance, lastLineY){
 		isOutOfBounds : function(){
 			//Is the second line component less than 0?
 			return (position[1].getX() < 0);
-		}
+		},
+
 	}
 }

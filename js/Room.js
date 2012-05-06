@@ -12,6 +12,14 @@ function Room(canvas){
 	//The x distance the lines cover
 	var lineDistance = -context.canvas.width;
 	
+	//Create an array of line colors
+	var lineColors = [
+		'#f00',
+		'#0f0',
+		'#00f',
+		'#ff0'
+	];
+	
 	//The initial seed for the line Y setting
 	var lastLineY = 300;
 	
@@ -20,6 +28,12 @@ function Room(canvas){
 	
 	//The lines drawn on the room
 	var lines = [];
+	
+	//Create an initial line for us to run on
+	lines[0] = new Line(false, false, lineColors);
+	
+	//Create our runner to run on our lines
+	var runner = new Runner(lineColors);
 
 	return {
 		
@@ -45,8 +59,7 @@ function Room(canvas){
 					//conventional queue, ie first in first out. If this becomes
 					//the case use Array.clean as defined in Utils.js
 					lines = lines.splice(1);
-					
-					console.log(lines);
+
 				}
 
 			});
@@ -58,7 +71,7 @@ function Room(canvas){
 				var newLineKey = lines.length;
 				
 				//Create a new line object
-				lines[newLineKey] = new Line(lineDistance, lastLineY);				
+				lines[newLineKey] = new Line(lineDistance, lastLineY, lineColors);				
 
 				//Add the lines length to the line distance
 				lineDistance += 
@@ -72,12 +85,18 @@ function Room(canvas){
 				//Store the y position of the line
 				lastLineY = lines[newLineKey].getY();
 			}
+			
+			//Make our runner man work
+			runner.tick(lines);
 
 			//Draw the room
 			this.draw();
 			
 			//Draw the lines
 			lines.forEach(function(line){ line.draw(); });
+			
+			//Draw our runner dude
+			runner.draw();
 
 		},
 		

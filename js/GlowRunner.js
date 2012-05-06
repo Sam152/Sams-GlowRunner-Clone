@@ -51,9 +51,9 @@ function GlowRunner(){
 			var frameTime = (new Date).getTime() - frameStart;
 
 			//Set the next timeout based on the time we took
-			var nextTimeout = (frameTime > framerate)
+			var nextTimeout = (frameTime > (1000 / framerate))
 				? 0
-				: framerate - frameTime;
+				: (1000 / framerate) - frameTime;
 							
 			setTimeout(_this.start, nextTimeout);		
 		},
@@ -68,7 +68,6 @@ function GlowRunner(){
 				context.canvas.width,
 				context.canvas.height
 			);
-
 		}
 	};
 }
@@ -78,3 +77,4 @@ function GlowRunner(){
 window.onload = function(){
 	(new GlowRunner()).start();
 }
+
