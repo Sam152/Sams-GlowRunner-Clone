@@ -13,7 +13,7 @@ function Line(lineDistance, lastLineY, lineColors){
 	var lineYVariance = 100;
 	
 	//The minimum variance of a new platform
-	var minLineYVariance = 50;
+	var minLineYVariance = 30;
 	
 	//How much the line width should vary
 	var lineWidthVariance = 100;

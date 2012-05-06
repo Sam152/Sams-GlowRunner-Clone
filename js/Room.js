@@ -8,7 +8,7 @@ function Room(canvas){
 	 */
 
 	//The speed at which the room moves
-	var roomSpeed = -10;
+	var roomSpeed = -12;
 
 	//The upper limit of how far away platforms are from eachother
 	var platformFrequencyVarianceUpper = 200;
@@ -101,7 +101,7 @@ function Room(canvas){
 				//Store the y position of the line
 				lastLineY = lines[newLineKey].getY();
 			}
-			
+
 			//Make our runner man work
 			runner.tick(lines);
 

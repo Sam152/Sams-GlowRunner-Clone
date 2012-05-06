@@ -7,6 +7,7 @@ function GlowRunner(){
 	canvas = 	document.getElementById('glow-runner');
 	context = 	canvas.getContext("2d");
 	ticks = 	0;
+	sound = new SoundManager('assets/sounds', 'mp3', 100);
 	
 	//Our application variables
 	var framerate = 30;

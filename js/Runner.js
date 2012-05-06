@@ -162,7 +162,7 @@ function Runner(lineColors){
 			
 			//Since we can move terminalVelocity units maximum per tick,
 			//make sure our hit area encompasses this value.
-			var yHitAreaBottom = yHitAreaTop + terminalVelocity;
+			var yHitAreaBottom = yHitAreaTop + ((velocity > 0) ? velocity + 1 : 0);
 	
 			//Loop through each line to see if we are standing on it
 			lines.some(function(line, index){
