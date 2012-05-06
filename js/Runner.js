@@ -11,10 +11,10 @@ function Runner(lineColors){
 	var gravity = 1;
 	
 	//The upward velocity to add when jumping
-	var jumpVelocity = -5;
+	var jumpVelocity = -10;
 	
 	//The handtime of a jump in milliseconds
-	var jumpHangtime = 4000;
+	var jumpHangtime = 250;
 
 	//The maximum velocity we can fall at	
 	var terminalVelocity = 15;
@@ -136,12 +136,10 @@ function Runner(lineColors){
 			position.add(new Point(0, velocity));			
 			
 			if(standingOnALine && !movingUpward){
-			
-					console.log(ticks + ' standing');
-				
-					//Stop our man from falling
+
+					//Stop our man from fallings
 					velocity = 0;
-				
+
 					//Make our runner hug the line instead of stopping just above it
 					position.setY(
 						//Get the position of our last active line
