@@ -18,10 +18,10 @@ function Room(canvas){
 	
 	//Create an array of line colors
 	var lineColors = [
-		'#f00',
+		'#ff0',
 		'#0f0',
-		'#00f',
-		'#ff0'
+		'#f00',
+		'#00f'
 	];
 
 
@@ -46,6 +46,10 @@ function Room(canvas){
 
 	//Create our runner to run on our lines
 	var runner = new Runner(lineColors);
+	
+	//Get the display object we are using the render various elements
+	var display = new Display();
+	
 
 	return {
 		
@@ -101,38 +105,9 @@ function Room(canvas){
 			//Make our runner man work
 			runner.tick(lines);
 
-			//Draw the room
-			this.draw();
-			
-			//Draw the lines
-			lines.forEach(function(line){ line.draw(); });
-			
-			//Draw our runner dude
-			runner.draw();
+			//Draw all the elements of our room 
+			display.draw(lines, runner);
 
-		},
-		
-		//Draw the elements of the room
-		draw : function(){
-
-			//Render the background
-			this.background();
-
-		},
-
-		//Render the background of the room
-		background : function(){
-			
-			//Set the background color
-			context.fillStyle = "#000";
-			
-			//Fill the background with that solid color
-			context.fillRect(
-				0,
-				0,
-				context.canvas.width,
-				context.canvas.height
-			);
 		}
 	};
 

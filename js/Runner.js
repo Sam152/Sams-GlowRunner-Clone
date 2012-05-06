@@ -8,10 +8,10 @@ function Runner(lineColors){
 	 */
 
 	//The strength of gravity
-	var gravity = 1;
+	var gravity = 1.5;
 	
 	//The upward velocity to add when jumping
-	var jumpVelocity = -10;
+	var jumpVelocity = -13;
 	
 	//The handtime of a jump in milliseconds
 	var jumpHangtime = 250;

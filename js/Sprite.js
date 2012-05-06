@@ -28,11 +28,16 @@ function Sprite (src, frameWidth) {
 	return {
 	
 		//Draw our image on the screen
-		draw : function(drawPoint){
+		draw : function(drawPoint, fullScreen){
 			
 			//The clipping coordinates of our image
-			var sourceX = width * this.state;
+			var sourceX = frameWidth * state;
 			var sourceY = 0;
+			
+			//Check if we want the image to be full screen or not
+			if(typeof fullScreen === 'undefined'){
+				fullScreen = false;
+			}
 
 			//Save our context for later use
 			context.save();
@@ -51,6 +56,19 @@ function Sprite (src, frameWidth) {
 				drawPoint.setY(-this.getHeight() / 2);
 			}
 
+			//Select a destination width and height			
+			var destinationWidth = frameWidth;
+			var destinationHeight = image.height;
+			
+			//If we want to render the image full screen
+			if(fullScreen){
+
+				//Make the destination dimensions the entire canvas
+				destinationWidth = context.canvas.width;
+				destinationHeight = context.canvas.height;
+			}
+
+
 			//Call our canvas draw API
 			context.drawImage(
 				image,
@@ -58,19 +76,20 @@ function Sprite (src, frameWidth) {
 				sourceY,
 				frameWidth,
 				image.height,
-				drawPoint.x,
-				drawPoint.y,
-				frameWidth,
-				image.height
+				drawPoint.getX(),
+				drawPoint.getY(),
+				destinationWidth,
+				destinationHeight
 			);
 
 			//Restore our previous context
 			context.restore();
+
 		},
 		
 		//Get the width of one of our frames
 		getWidth : function(){
-			return width;
+			return frameWidth;
 		},
 		
 		//Get the height of one of our frames
