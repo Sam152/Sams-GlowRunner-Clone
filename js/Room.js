@@ -8,7 +8,7 @@ function Room(canvas){
 	 */
 
 	//The speed at which the room moves
-	var roomSpeed = -12;
+	var roomSpeed = -15;
 
 	//The upper limit of how far away platforms are from eachother
 	var platformFrequencyVarianceUpper = 200;
