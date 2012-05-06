@@ -1,0 +1,3 @@
+- At random points the colors are no longer random and cycle in order.
+- Vertical lines.
+- Multicolored platforms
