@@ -14,11 +14,10 @@ function Runner(lineColors){
 	var jumpVelocity = -13;
 	
 	//The handtime of a jump in milliseconds
-	var jumpHangtime = 350;
+	var jumpHangtime = 400;
 
 	//The maximum velocity we can fall at	
-	var terminalVelocity = 15;
-	
+	var terminalVelocity = 20;
 
 	/*
 	 * Don't mess with these.
@@ -149,6 +148,16 @@ function Runner(lineColors){
 						- dimensions.getY()
 					);
 			}
+			
+			//If we fall off the blast room
+			if(position.getY() + dimensions.getY() > context.canvas.height){
+				
+				//Return false to tell our parent shit has gone down
+				return false;
+			} 
+
+			//Return true for a successful tick		
+			return true;
 		
 		},
 		

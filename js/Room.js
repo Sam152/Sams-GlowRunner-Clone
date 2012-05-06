@@ -14,7 +14,7 @@ function Room(canvas){
 	var platformFrequencyVarianceUpper = 200;
 	
 	//The lower limit of how far away platforms are from eachother
-	var platformFrequencyVarianceLower = -100;
+	var platformFrequencyVarianceLower = -50;
 	
 	//Create an array of line colors
 	var lineColors = [
@@ -107,11 +107,17 @@ function Room(canvas){
 				lastLineY = lines[newLineKey].getY();
 			}
 
-			//Make our runner man work
-			runner.tick(lines);
+			//Our runner returns false from a tick upon death
+			var runnerDead = !runner.tick(lines);
 
 			//Draw all the elements of our room 
 			display.draw(lines, runner);
+
+			//If we are dead
+			if(runnerDead){
+				//Reset the room
+				this.reset();
+			}
 
 		},
 		

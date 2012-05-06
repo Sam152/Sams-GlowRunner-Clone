@@ -10,12 +10,12 @@ function Line(lineDistance, lastLineY, lineColors){
 	var bottomBuffer = 50;
 	
 	//The variance of the height of the line
-	var lineYVariance = 120;
+	var lineYVariance = 200;
 	
 	//The minimum variance of a new platform
 	var minLineYVariance = 10;
 	
-	//How much the line width should vary
+	//The line width variance
 	var lineWidthVariance = 100;
 	
 	//The minimum line width
