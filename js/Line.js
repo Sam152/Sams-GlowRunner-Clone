@@ -4,13 +4,16 @@
 function Line(lineDistance, lastLineY, lineColors){
 
 	//The buffer of space to leave at the top of the canvas
-	var topBuffer = 150;
+	var topBuffer = 50;
 	
 	//The space to leave free at the bottom of the screen
 	var bottomBuffer = 50;
 	
 	//The variance of the height of the line
 	var lineYVariance = 100;
+	
+	//The minimum variance of a new platform
+	var minLineYVariance = 50;
 	
 	//How much the line width should vary
 	var lineWidthVariance = 100;
@@ -41,9 +44,18 @@ function Line(lineDistance, lastLineY, lineColors){
 			
 		}else{
 	
+			//Get a random variance to shove the line up or down
+			var randomLineVariance = rand(-lineYVariance, lineYVariance);
+			
+			//Ensure our minLineYVariance is respected
+			randomLineVariance +=
+				(randomLineVariance < 0)
+					? -minLineYVariance
+					: minLineYVariance;
+			
 			//The y position of the line
-			yPosition = lastLineY + rand(-lineYVariance,lineYVariance);
-	
+			yPosition = lastLineY + randomLineVariance;
+
 			//Define the color of our line
 			lineColor = lineColors[rand(0,lineColors.length -1)];
 	
