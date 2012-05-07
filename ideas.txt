@@ -1,3 +1,4 @@
 - At random points the colors are no longer random and cycle in order.
 - Vertical lines.
 - Multicolored platforms
+- Store state in GlowRunner.js and do a state() call in the main loop
