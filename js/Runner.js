@@ -260,7 +260,7 @@ function Runner(lineColors){
 				if(jumping){
 				
 					//Set the sprite to the jumping state	
-					sprite.setState(6);
+					sprite.setState(6); 
 					
 				}else{
 
