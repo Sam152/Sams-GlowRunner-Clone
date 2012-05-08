@@ -49,6 +49,22 @@ function Runner(lineColors){
 	
 	//The velocity of our runner
 	var velocity = 0;
+	
+	//The different colored sprites
+	var runnerSprites = [
+		new Sprite('/assets/images/runner-yellow.png', 63),
+		new Sprite('/assets/images/runner-green.png', 63),
+		new Sprite('/assets/images/runner-red.png', 63),
+		new Sprite('/assets/images/runner-blue.png', 63)
+	];
+	
+	//The state order the frames should animate in
+	var animationFrames = [
+		0, 3, 2, 0, 3, 2
+	];
+	
+	//The last color that was selected for our sprites
+	var colorKey = 0;
 		
 	//Construct our runner
 	(function(){
@@ -59,12 +75,15 @@ function Runner(lineColors){
 			function(e){
 		
 				//Get they key binding that maps to a color
-				var keyColorBinding = e.keyCode - 37;
+				keyColorBinding = e.keyCode - 37;
 				
 				//If it exists in our array
 				if(typeof lineColors[keyColorBinding] !== 'undefined'){
 					//Set our color to the key that was pressed
 					color = lineColors[keyColorBinding];
+					
+					//Store the key of this color for our sprites
+					colorKey = keyColorBinding;
 				}
 				
 				//If we push space
@@ -99,6 +118,9 @@ function Runner(lineColors){
 			//If the user is trying to jump or moving upward	
 			if(spaceDown && (standingOnALine || movingUpward)){
 				
+				//Set or jump status to be true because we are moving up
+				jumping = true;
+				
 				//This is the first tick of a jump
 				if(standingOnALine){
 
@@ -120,6 +142,13 @@ function Runner(lineColors){
 
 			
 			}else{
+				
+				//Since we on our way down AND standing on a line
+				if(standingOnALine)
+					//We are no longer jumping
+					jumping = false;
+				
+				//We are also not moving upward
 				movingUpward = false;
 			}
 			
@@ -219,17 +248,30 @@ function Runner(lineColors){
 		
 		//Draw our runner man
 		draw : function(){
+		
+			var animationSpeed = 3;
 
-			//Set the color of our dude
-			context.fillStyle = color;
+			console.log();
+			//Draw the current state in the sprites position
+			runnerSprites[colorKey].draw(position);
+			
+			//Set the state of each sprite based on state and ticks
+			runnerSprites.forEach(function(sprite){
+				if(jumping){
+				
+					//Set the sprite to the jumping state	
+					sprite.setState(6);
+					
+				}else{
 
-			//A placeholder rect for now
-			context.fillRect(
-				position.getX(),
-				position.getY(),
-				dimensions.getX(),
-				dimensions.getY()
-			);
+					sprite.setState(
+						animationFrames[
+							//Use the tick count to slow the animation down
+							Math.floor(ticks / animationSpeed) % animationFrames.length
+						]
+					);
+				}
+			});
 
 		},
 	};

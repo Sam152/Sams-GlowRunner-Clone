@@ -100,6 +100,11 @@ function Sprite (src, frameWidth) {
 		//Set the rotation of our image
 		setRotation : function(inAngle){
 			imageRotation = inAngle;
-		}		
+		},
+		
+		//Set the state of the sprite
+		setState : function(inState){
+			state = inState;
+		}	
 	};
 }
