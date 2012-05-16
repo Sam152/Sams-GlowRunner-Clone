@@ -18,3 +18,10 @@ Array.prototype.clean = function(deleteValue) {
   }
   return this;
 };
+
+/*
+ * Run a function a asynchronously.
+ */
+function async(func){
+	setTimeout(func, 0);
+}

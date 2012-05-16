@@ -10,7 +10,7 @@ function GlowRunner(){
 	sound = 	new SoundManager('assets/sounds', 100);
 	
 	//Our application variables
-	var framerate = 30;
+	var framerate = 410;
 	var room = new Room();
 
 	//Create a variable which will become this
@@ -63,7 +63,7 @@ function GlowRunner(){
 			var nextTimeout = (frameTime > (1000 / framerate))
 				? 0
 				: (1000 / framerate) - frameTime;
-							
+					
 			setTimeout(_this.start, nextTimeout);		
 		},
 		

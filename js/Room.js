@@ -64,7 +64,7 @@ function Room(canvas){
 			//Add the rooms speed to the roomDistance
 			roomDistance += roomSpeed;
 		
-			//todo, make all the elements of the room move roomSpeed units
+			//For every line on the screen
 			lines.forEach(function(line, index){ 
 
 				//Tick the line
@@ -80,10 +80,9 @@ function Room(canvas){
 					//conventional queue, ie first in first out. If this becomes
 					//the case use Array.clean as defined in Utils.js
 					lines = lines.splice(1);
-
 				}
-
 			});
+
 
 			//While we don't have lines to cover the whole room
 			if(-lineDistance > roomDistance){
