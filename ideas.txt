@@ -1,5 +1,7 @@
 - At random points the colors are no longer random and cycle in order.
 - Vertical lines.
+- Create difficulties and a menu.
 - Multicolored platforms
 - Store state in GlowRunner.js and do a state() call in the main loop
 - Instead of having a "hang time" make it based on vertical distance since inital jump. That way jump height isn't based on performance or other factors which may influce tick speed like framerate.
+- Create a measure of performance, ticks over time and test various speed improvements/bottlenecks.
