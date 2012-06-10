@@ -13,8 +13,8 @@ function Runner(lineColors){
 	//The upward velocity to add when jumping
 	var jumpVelocity = -13;
 	
-	//The handtime of a jump in milliseconds
-	var jumpHangtime = 400;
+	//The handtime of a jump in ticks
+	var jumpHangtime = 20;
 
 	//The maximum velocity we can fall at	
 	var terminalVelocity = 20;
@@ -131,10 +131,10 @@ function Runner(lineColors){
 					velocity = jumpVelocity;
 					
 					//Set our jump to end when the time hits this point
-					hangtimeEnd = (new Date()).getTime() + jumpHangtime;
+					hangtimeEnd = ticks + jumpHangtime;
 				}					
 
-				if((new Date()).getTime() < hangtimeEnd){
+				if(ticks < hangtimeEnd){
 					velocity = jumpVelocity;
 				}else{
 					movingUpward = false;
