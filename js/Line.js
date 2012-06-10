@@ -4,16 +4,16 @@
 function Line(lineDistance, lastLineY, lineColors){
 
 	//The buffer of space to leave at the top of the canvas
-	var topBuffer = 50;
+	var topBuffer = 110;
 	
 	//The space to leave free at the bottom of the screen
-	var bottomBuffer = 50;
+	var bottomBuffer = 20;
 	
 	//The variance of the height of the line
-	var lineYVariance = 200;
+	var lineYVariance = 100;
 	
 	//The minimum variance of a new platform
-	var minLineYVariance = 10;
+	var minLineYVariance = 30;
 	
 	//The line width variance
 	var lineWidthVariance = 100;
@@ -62,11 +62,11 @@ function Line(lineDistance, lastLineY, lineColors){
 			//Make sure the y position doesn't got off the bottom of the screen
 			if(yPosition > context.canvas.height - bottomBuffer)
 				//Reflect it's position back
-				yPosition -= 2 * Math.abs(yPosition - (context.canvas.height - bottomBuffer));
+				yPosition -= 1 * Math.abs(yPosition - (context.canvas.height - bottomBuffer));
 
 			//If the y position it higher than the buffer
 			if(yPosition < topBuffer)
-				yPosition += 2 * (topBuffer - yPosition);
+				yPosition += 1 * (topBuffer - yPosition);
 
 			//The width of a line
 			lineWidth = rand(0, lineWidthVariance) + minLineWidth;
@@ -141,23 +141,39 @@ function Line(lineDistance, lastLineY, lineColors){
 		
 		//Draw the line
 		draw : function(){
+
+			//Save our context
+			context.save();
 		
 			//Start drawing a path
 			context.beginPath();
 
+			//Create a shadow blur
+			context.shadowBlur = 20;
+
+			//Set the color our our glow
+			context.shadowColor = lineColor;
+
 			//Set the color of the line
 			context.strokeStyle = lineColor;
+
+			//Set a cap on our lines to be round
+			context.lineCap = 'round';
 			
 			//Set the line width
-			context.lineWidth = 5;
+			context.lineWidth = 4;
 			
 			//Draw a line between the two points
 			context.moveTo(position[0].getX(),position[0].getY());
 			context.lineTo(position[1].getX(),position[1].getY());
 			context.stroke();
+
+			//When the line has completed drawing, restore our old context
+			context.restore();
+
 		},
 		
-		//Destroy a line object
+		//Check if the line is off the screen
 		isOutOfBounds : function(){
 			//Is the second line component less than 0?
 			return (position[1].getX() < 0);
