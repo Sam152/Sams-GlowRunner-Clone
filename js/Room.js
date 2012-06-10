@@ -11,7 +11,7 @@ function Room(canvas){
 	var roomSpeed = -15;
 
 	//The upper limit of how far away platforms are from eachother
-	var platformFrequencyVarianceUpper = 200;
+	var platformFrequencyVarianceUpper = 400;
 	
 	//The lower limit of how far away platforms are from eachother
 	var platformFrequencyVarianceLower = -50;
@@ -20,8 +20,8 @@ function Room(canvas){
 	var lineColors = [
 		'#ff0',
 		'#0f0',
-		'#f00',
-		'#00f'
+		'#f22',
+		'#33f'
 	];
 
 
@@ -114,8 +114,14 @@ function Room(canvas){
 
 			//If we are dead
 			if(runnerDead){
+				
+				//Play the sound to indicate we are dead
+				sound.play('dead');
+
 				//Reset the room
 				this.reset();
+
+
 			}
 
 		},

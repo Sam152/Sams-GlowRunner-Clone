@@ -14,7 +14,7 @@ function Runner(lineColors){
 	var jumpVelocity = -13;
 	
 	//The handtime of a jump in ticks
-	var jumpHangtime = 20;
+	var jumpHangtime = 15;
 
 	//The maximum velocity we can fall at	
 	var terminalVelocity = 20;
@@ -49,6 +49,9 @@ function Runner(lineColors){
 	
 	//The velocity of our runner
 	var velocity = 0;
+
+	//How far off the screen the runner should fall before dying
+	var fallDeathBuffer = 150;
 	
 	//The different colored sprites
 	var runnerSprites = [
@@ -57,7 +60,7 @@ function Runner(lineColors){
 		new Sprite('/assets/images/runner-red.png', 63),
 		new Sprite('/assets/images/runner-blue.png', 63)
 	];
-	
+
 	//The state order the frames should animate in
 	var animationFrames = [
 		0, 3, 2, 0, 3, 2
@@ -179,7 +182,7 @@ function Runner(lineColors){
 			}
 			
 			//If we fall off the blast room
-			if(position.getY() + dimensions.getY() > context.canvas.height){
+			if(position.getY() + dimensions.getY() > context.canvas.height + fallDeathBuffer){
 				
 				//Return false to tell our parent shit has gone down
 				return false;

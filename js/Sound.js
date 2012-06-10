@@ -15,6 +15,21 @@ function SoundManager(soundPath, initialVolume){
 			loop : true,
 			file : 'start.mp3',
 			volume : initialVolume
+		},
+		electricity : {
+			loop : true,
+			file : 'electricity1.wav',
+			volume : initialVolume
+		},
+		land : {
+			loop : false,
+			file : 'kraftfeld_aus.mp3',
+			volume : initialVolume
+		},
+		dead : {
+			loop : false,
+			file : 'sg_explode.wav',
+			volume : initialVolume
 		}
 	};
 
@@ -22,32 +37,38 @@ function SoundManager(soundPath, initialVolume){
 
 		play : function(soundName, callback){
 
+			console.log('Playing ' + soundName);
+
 			//If the sound doesn't exist return
 			if(typeof sounds[soundName] == 'undefined')
 				return;
 				
 			//If the audioElement doesn't exist
-			if(typeof sounds[soundName].audioElement == 'undefined')
+			if(typeof sounds[soundName].audioElement == 'undefined'){
+
 				//Create it and attach it to the audio object
-				sounds[soundName].audioElement = 
-					new Audio(soundPath + '/' + sounds[soundName].file);			
+				sounds[soundName].audioElement =
+					new Audio(soundPath + '/' + sounds[soundName].file);		
 
-			//Define a variable to access the audio element
-			var audioElement = sounds[soundName].audioElement;
-			
-			//When the sound has loaded
-			audioElement.addEventListener(
-				'loadedmetadata',
-				function(){
+				//When the sound has loaded
+				sounds[soundName].audioElement.addEventListener(
+					'loadedmetadata',
+					function(){
+						//Play the sound
+						sounds[soundName].audioElement.play();
+					},
+					false
+				);
 
-					//Play the sound
-					audioElement.play();
-				},
-				false
-			);
+			}else{
+
+				//The sound has already been loaded and defined, so we can call play
+				sounds[soundName].audioElement.play();
+			}
+
 			
 			//When the audio element has completed playing
-			audioElement.addEventListener(
+			sounds[soundName].audioElement.addEventListener(
 				'ended',
 				function(){
 					
@@ -56,12 +77,11 @@ function SoundManager(soundPath, initialVolume){
 						//Run our callback
 						callback();
 					}
-					
-					console.log('Playing');
+
 					//If we are looping
 					if(sounds[soundName].loop)
+						//Start the sound from the begining
 						this.play(soundName);
-	
 				},
 				false
 			);
@@ -75,7 +95,7 @@ function SoundManager(soundPath, initialVolume){
 			sounds[soundName].audioElement.stop();
 			
 			//Stop any looping
-			sounds[soundName].loop = false;
+			//this.setLoopStatus(soundName, false);
 
 		},
 		
