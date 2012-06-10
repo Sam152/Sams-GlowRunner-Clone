@@ -10,7 +10,7 @@ function GlowRunner(){
 	sound = 	new SoundManager('assets/sounds', 100);
 	
 	//Our application variables
-	var framerate = 410;
+	var framerate = 35;
 	var room = new Room();
 
 	//Create a variable which will become this
