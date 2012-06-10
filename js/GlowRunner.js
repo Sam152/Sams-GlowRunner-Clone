@@ -11,7 +11,13 @@ function GlowRunner(){
 	
 	//Our application variables
 	var framerate = 35;
+
+	//Get the various models for our application
 	var room = new Room();
+	var menu = new Menu();
+
+	//Set the initial state of our application
+	state = room; 
 
 	//Create a variable which will become this
 	var _this;
@@ -37,7 +43,7 @@ function GlowRunner(){
 			this.clear();
 			
 			//Make the room work
-			room.tick();
+			state.tick();
 		
 			//Keep our global tick count rockin' 
 			ticks++;
